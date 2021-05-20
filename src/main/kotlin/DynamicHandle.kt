@@ -53,7 +53,7 @@ suspend fun sendDynamic(bot: Bot, rawDynamic: JSONObject, user: User){
             isVideo = true
         }
         // 发送消息
-        sendMessage(bot, user.uid, resMag,isVideo)
+        sendMessage(bot, user.uid, resMag, isVideo)
 
     }catch (e : Exception){
         PluginMain.logger.error("发送 " + user.name + "的动态失败!")

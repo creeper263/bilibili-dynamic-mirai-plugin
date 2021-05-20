@@ -64,7 +64,8 @@ object MessageListener : ListenerHost {
                             "#r [指定数字] / #骰子 [指定数字]\n" +
                             "#添加 <UID> [群/Q号] [16进制主题色]\n"+
                             "#删除 <UID> [群/Q号]\n"+
-                            "#订阅列表 [群/Q号]\n\n"+
+                            "#订阅列表 [群/Q号]\n"+
+                            "#视频模式 [群/Q号]\n\n"+
                             "说明: <>内为必填, []为选填. 中间用空格隔开! 不要带括号!"
                     )
                 }
@@ -408,11 +409,15 @@ object MessageListener : ListenerHost {
                         return
                     }
                     try {
-                        if (!PluginData.videomodeList.contains(command.qid))
-                        PluginData.videomodeList.add(command.qid)
-                        subject.sendMessage("添加成功")
+                        if (!PluginData.videomodeList.contains(command.qid)) {
+                            PluginData.videomodeList.add(command.qid)
+                            subject.sendMessage("${command.qid} 开启视频模式")
+                        } else {
+                            PluginData.videomodeList.remove(command.qid)
+                            subject.sendMessage("${command.qid} 关闭视频模式")
+                        }
                     }catch (e:Exception){
-                        subject.sendMessage("${command.qid} 添加失败! 内部错误 或 检查uid是否正确")
+                        subject.sendMessage("失败! 内部错误 或 检查uid是否正确")
                     }
                     return
                 }
