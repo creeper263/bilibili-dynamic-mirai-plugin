@@ -29,9 +29,6 @@ suspend fun sendDynamic(bot: Bot, rawDynamic: JSONObject, user: User){
     try {
         val desc = rawDynamic.getJSONObject("desc")
         val type = desc.getInteger("type")
-        if (PluginConfig.dynamic["videoMode"]=="true" && type != 8){
-            return
-        }
 
         // 封装动态
         val dynamic = Dynamic()
@@ -50,8 +47,13 @@ suspend fun sendDynamic(bot: Bot, rawDynamic: JSONObject, user: User){
         dynamicFormat(dynamic)
         // 构建消息链
         val resMag = buildResMessage(dynamic, user)
+        var isVideo = false;
+        //判断是否视频动态
+        if (dynamic.type == 8) {
+            isVideo = true
+        }
         // 发送消息
-        sendMessage(bot, user.uid, resMag)
+        sendMessage(bot, user.uid, resMag,isVideo)
 
     }catch (e : Exception){
         PluginMain.logger.error("发送 " + user.name + "的动态失败!")
@@ -277,8 +279,11 @@ suspend fun buildTextMassageChain(dynamic: Dynamic, user: User):MessageChain{
 /**
  * 发送消息
  */
-suspend fun sendMessage(bot: Bot, uid: String, resMsg: MessageChain){
+suspend fun sendMessage(bot: Bot, uid: String, resMsg: MessageChain, isVideo: Boolean){
     PluginData.followMemberGroup[uid]?.forEach { id ->
+        if (PluginData.videomodeList.contains(id) && !isVideo) {
+            return@forEach
+        }
         if (PluginData.groupList.contains(id)){
             bot.getGroup(id)?.sendMessage(resMsg)
         }else if (PluginData.friendList.contains(id)){

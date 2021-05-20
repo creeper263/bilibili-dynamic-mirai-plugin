@@ -396,6 +396,26 @@ object MessageListener : ListenerHost {
                     }
                     return
                 }
+                "视频模式", "video" -> {
+                    val command = resolveCommand(content, "#视频模式 [qid]", subject)
+                    if (command==null){
+                        subject.sendMessage("命令语法错误")
+                        return
+                    }
+                    if (!PluginData.friendList.contains(command.qid)&&!PluginData.groupList.contains(command.qid)) {
+                        subject.sendMessage("${command.qid} 尚未开启动态推送，请先使用 #开启动态推送")
+                        this.intercept()
+                        return
+                    }
+                    try {
+                        if (!PluginData.videomodeList.contains(command.qid))
+                        PluginData.videomodeList.add(command.qid)
+                        subject.sendMessage("添加成功")
+                    }catch (e:Exception){
+                        subject.sendMessage("${command.qid} 添加失败! 内部错误 或 检查uid是否正确")
+                    }
+                    return
+                }
             }
         }
     }

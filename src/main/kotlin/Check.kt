@@ -96,7 +96,7 @@ suspend fun check(bot: Bot){
                         }else if(keyframe!=""){
                             dynamic.pictures?.add(keyframe)
                         }
-                        sendMessage(bot,user.uid,buildResMessage(dynamic, user))
+                        sendMessage(bot,user.uid,buildResMessage(dynamic, user),false)
                     }
                     user.liveStatus = liveStatus
                 }

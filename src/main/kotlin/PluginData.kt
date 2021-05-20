@@ -16,4 +16,6 @@ object PluginData : AutoSavePluginData("pluginData"){
     var followMemberGroup : MutableMap<String,MutableList<Long>> by value()
 
     var userData : MutableList<User> by value()
+
+    var videomodeList : MutableList<Long> by value()
 }

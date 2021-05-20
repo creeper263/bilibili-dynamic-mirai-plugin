@@ -51,8 +51,6 @@ object PluginConfig : AutoSavePluginConfig("config") {
         //慢速模式开启时间段 不开启则填000-000
         //例：200..800就是凌晨2点到8点
         "lowSpeed" to "200-800",
-        //视频模式  此模式仅会推送视频
-        "videoMode" to "false",
         //是否保存动态图片
         "saveDynamicImage" to "true"
     ))
