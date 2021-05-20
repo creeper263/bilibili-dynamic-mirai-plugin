@@ -6,10 +6,7 @@ import com.alibaba.fastjson.JSONObject
 import kotlinx.coroutines.delay
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.console.util.ContactUtils.getFriendOrGroup
-import net.mamoe.mirai.message.data.FileMessage
-import net.mamoe.mirai.message.data.Image
-import net.mamoe.mirai.message.data.MessageChain
-import net.mamoe.mirai.message.data.buildMessageChain
+import net.mamoe.mirai.message.data.*
 import net.mamoe.mirai.utils.ExternalResource.Companion.toExternalResource
 import net.mamoe.mirai.utils.ExternalResource.Companion.uploadAsImage
 import top.colter.mirai.plugin.bean.Dynamic
@@ -288,6 +285,22 @@ suspend fun sendMessage(bot: Bot, uid: String, resMsg: MessageChain, isVideo: Bo
             bot.getGroup(id)?.sendMessage(resMsg)
         }else if (PluginData.friendList.contains(id)){
             bot.getFriend(id)?.sendMessage(resMsg)
+        }
+        delay(500)
+    }
+}
+
+/**
+ * 发送Lim版直播信息
+ */
+suspend fun sendLimLiving(bot: Bot, uid: String, resMsg: MessageChain){
+    PluginData.followMemberGroup[uid]?.forEach { id ->
+        if (PluginData.groupList.contains(id)){
+            bot.getGroup(id)?.sendMessage(resMsg)
+            bot.getGroup(id)?.sendMessage("莉姆丝OvO开播啦~")
+        }else if (PluginData.friendList.contains(id)){
+            bot.getFriend(id)?.sendMessage(resMsg)
+            bot.getFriend(id)?.sendMessage("莉姆丝OvO开播啦~")
         }
         delay(500)
     }

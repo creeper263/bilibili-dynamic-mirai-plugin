@@ -96,7 +96,12 @@ suspend fun check(bot: Bot){
                         }else if(keyframe!=""){
                             dynamic.pictures?.add(keyframe)
                         }
-                        sendMessage(bot,user.uid,buildResMessage(dynamic, user), false)
+                        //判断是否lim直播
+                        if (user.uid == "664047468") {
+                            sendLimLiving(bot,user.uid,buildResMessage(dynamic, user))
+                        } else {
+                            sendMessage(bot,user.uid,buildResMessage(dynamic, user), false)
+                        }
                     }
                     user.liveStatus = liveStatus
                 }
